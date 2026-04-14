@@ -1,0 +1,48 @@
+# podman build -t localhost/perf-tuning:8.0 .
+FROM registry.fedoraproject.org/fedora-toolbox:43
+
+# Disable h264 repo
+RUN dnf config-manager --set-disabled fedora-cisco-openh264
+
+# Update base packages
+#RUN dnf -y upgrade
+
+# Install packages
+# hwloc provides lstopo
+RUN dnf install -y  \
+   bcc-tools        \
+   blktrace         \
+   e2fsprogs        \
+   ethtool          \
+   file             \
+   fio              \
+   firewalld        \
+   hwloc            \
+   iotop            \
+   kernel-doc       \
+   libteam          \
+   lshw             \
+   ltrace           \
+   lvm2             \
+   mdadm            \
+   NetworkManager   \
+   numactl          \
+   parted           \
+   pcp              \
+   pcp-system-tools \
+   perf             \
+   qperf            \
+   strace           \
+   sysstat          \
+   systemtap        \
+   teamd            \
+   tuna             \
+   valgrind
+
+# Clean
+RUN dnf clean all \
+    && rm -rf /var/cache/dnf
+
+RUN echo "toolbox create -i localhost/perf-tuning:8.0 perf-tuning"
+RUN echo "toolbox enter perf-tuning"
+
