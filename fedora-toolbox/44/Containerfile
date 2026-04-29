@@ -1,0 +1,68 @@
+# podman build -t localhost/toolbox:44 .
+
+FROM registry.fedoraproject.org/fedora-toolbox:44
+
+# Disable h264 repo
+RUN sed -i -e "s,enabled=1,enabled=0,g" /etc/yum.repos.d/fedora-cisco-openh264.repo
+
+# Update base packages
+#RUN dnf -y upgrade
+
+# Install packages
+# - jq, openssl for kind.sh
+# - podman only for podman-completion
+#  bats \
+#  p7zip \
+#  podman \
+RUN dnf install -y \
+    @development-tools \
+    awscli2 \
+    docker-compose \
+    fzf \
+    gh \
+    jq \
+    oathtool \
+    openssl \
+    pass \
+    perf \
+    pinentry-gnome3 \
+    podman-remote \
+    shellcheck \
+    telnet \
+    tmate \
+    trash-cli \
+    wdisplays \
+    wl-mirror \
+    xev \
+    yq \
+    --exclude=glib-networking \
+    --exclude=logrotate \
+    --exclude=low-memory-monitor \
+    --exclude=mlocate \
+    --exclude=nodejs-docs \
+    --exclude=pipewire \
+    --exclude=podman \
+    --exclude=upower \
+    --exclude=xdg-desktop-portal \
+    --exclude=xdg-desktop-portal-gtk
+
+# Remove packages
+RUN dnf -y remove \
+    glib-networking \
+    logrotate \
+    low-memory-monitor \
+    mlocate \
+    nodejs-docs \
+    pipewire \
+    podman \
+    upower \
+    xdg-desktop-portal \
+    xdg-desktop-portal-gtk
+
+# Clean
+RUN dnf clean all \
+    && rm -rf /var/cache/dnf
+
+RUN echo "toolbox create -i localhost/toolbox:44 fedora-toolbox-44"
+RUN echo "toolbox enter"
+
