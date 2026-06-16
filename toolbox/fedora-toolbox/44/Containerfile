@@ -17,9 +17,11 @@ RUN sed -i -e "s,enabled=1,enabled=0,g" /etc/yum.repos.d/fedora-cisco-openh264.r
 RUN dnf install -y \
     @development-tools \
     awscli2 \
+    cliphist \
     docker-compose \
     fzf \
     gh \
+    gitleaks \
     jq \
     oathtool \
     openssl \
