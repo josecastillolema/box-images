@@ -22,6 +22,7 @@ RUN dnf install -y \
     fzf \
     gh \
     gitleaks \
+    helm \
     jq \
     oathtool \
     openssl \
